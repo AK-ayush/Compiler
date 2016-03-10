@@ -151,11 +151,6 @@ string infixTOpostfix (const string infix) {
 } // end infixTOpostfix
 
 
-int* epsilon_closure(int start,int total_states)
-{
-
-} 
-
 int main()
 {
 	
@@ -164,12 +159,15 @@ int main()
 			// for (int k=0; k<MAX;k++)
 				transition[i][j]='\0';
 
-	string post, str = "(a|b)*";
+	string post, str ;
+	cout<<"enter the regex : ";
+	cin>>str;
+	
 	post = infixTOpostfix (str);
 	//const char *cstr = str.c_str();
 	//cout << *(cstr+2)<<endl;
 	cout<<post<<endl;
-	 create_NFA(post);
+	create_NFA(post);
 	  
 	return 0;
 }
