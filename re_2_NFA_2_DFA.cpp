@@ -10,7 +10,7 @@ iteration > concatenation > union
 
 using namespace std;
 
-char transition[MAX][MAX]; 
+char transition[MAX][MAX];
 char abcd[26];
 int alpha=0;
 typedef struct {
@@ -19,7 +19,7 @@ typedef struct {
 	int final;
 }NFA;
 
-typedef struct 
+typedef struct
 {
 	int total_states;
 	int start;
@@ -67,7 +67,7 @@ NFA create_NFA(string str)
 			transition[NFA_machines[NFA_2].final][final]=char(36);
 			NFA_machines[NFA_2].total_states +=2;
 			NFA_machines[NFA_2].start=start;
-			NFA_machines[NFA_2].final=final;	
+			NFA_machines[NFA_2].final=final;
 		}
 		else if(*itr == '.')  //concatenation
 		{
@@ -90,9 +90,9 @@ NFA create_NFA(string str)
 			NFA_machines[NFA_1].start= start;
 			NFA_machines[NFA_1].final= final;
 			NFA_1--; NFA_2--;
-			current_NFA--; 
+			current_NFA--;
 		}
-		itr++; 
+		itr++;
 	}
 	//cout<<NFA_machines[0].total_states<<"----"<<NFA_machines[0].start<<"----"<<NFA_machines[0].final<<endl;
 	//cout<<NFA_machines[1].total_states<<"----"<<NFA_machines[1].start<<"----"<<NFA_machines[1].final<<endl;
@@ -189,7 +189,7 @@ int epsilon_closure(int* arr,int size)
 			if(bool_arr[i]!=1)
 				{
 					bool_arr[i]=1;
-					s.push(i);	
+					s.push(i);
 				}
 			}
 		}
@@ -209,7 +209,7 @@ int* moves (int A , char b)
 	}
 	for(int i=0;i<100;i++)
 		{
-			if(transition[A][i]==b) 
+			if(transition[A][i]==b)
 				{
 					ans[ctr]=i;ctr++;
 				}
@@ -217,7 +217,7 @@ int* moves (int A , char b)
 
 	// return ans;
 	epsilon_closure(ans,ctr);
-} 
+}
 
 int dfa_moves[MAX][MAX];
 int dfa_states;
@@ -231,7 +231,7 @@ NFA NFA_to_DFA()
 	//state start
 	int *ans,*ptr = &start;
 	int ct=0,arr[MAX],arr_2[MAX];
-	
+
 	for(int i=0;i<100;i++)
 	{bool_arr[i]=0;}
 
@@ -257,7 +257,7 @@ NFA NFA_to_DFA()
 			// cout<<"sdv"<<endl;
 			for(int i=0;i<100;i++)bool_arr[i]=0;
 			for(int i=1;i<=dfa_moves[r][0];i++) moves(dfa_moves[r][i],abcd[j]);
-			
+
 			for (int i=1;i<100;i++){
 				if(bool_arr[i]==1)
 					{
@@ -281,7 +281,7 @@ NFA NFA_to_DFA()
 								//if(m==5)cout<<"ewwere";
 								//cout<<dfa_moves[l][m]<<"####"<<arr_2[m-1]<<"mmm"<<m<<endl;
 								if(dfa_moves[l][m]==arr_2[m-1]){
-									
+
 									ckt++;}//cout<<"ckt--"<<ckt<<"ctr--"<<ctr<<endl;}
 								}
 
@@ -293,13 +293,13 @@ NFA NFA_to_DFA()
 
 								dfa_trans[r+1][l+1]=abcd[j];/*cout<<r+1<<"---"<<l+1<<"asdads"<<endl;*/break;
 							}
-						}					
+						}
 
 					}
 					//cout<<"asdfa";
 					if(flag==0)
 					{
-						
+
 						dfa_moves[dfa_states][0]=ctr;
 						for(int i=0;i<ctr;i++)dfa_moves[dfa_states][i+1]=arr_2[i];
 						dfa_trans[r+1][dfa_states+1]=abcd[j];
@@ -309,7 +309,7 @@ NFA NFA_to_DFA()
 				//r++;
 				}
 				//cout<<r<<"===";
-			
+
 		}
 		if(dfa_states==k && r==dfa_states-1)break;
 		r++;
@@ -362,9 +362,9 @@ void DFA_min()
 	int current=0,ct=0;
 	group[0][0]=DFA_machine.final[0];
 	for(int i=1;i<=DFA_machine.final[0];i++){group[0][i]=DFA_machine.final[i]; dfa_final[i]=1;}
-	for(int i=1;i<=DFA_machine.total_states;i++){if(dfa_final[i]==1){group[1][++ct]=i;}} 
+	for(int i=1;i<=DFA_machine.total_states;i++){if(dfa_final[i]==1){group[1][++ct]=i;}}
 	group[1][0]=ct; //total states in group 2
-	
+
 }
 
 /*simulation code*/
@@ -395,7 +395,7 @@ bool simulation(const char* str)
 
 int main()
 {
-	
+
 	for (int i=0; i<MAX;i++)
 		for (int j=0; j<MAX;j++)
 			// for (int k=0; k<MAX;k++)
@@ -416,10 +416,14 @@ int main()
 	 cout<<"\n";
 	 string input_str;
 	 cout<<"simulation starting....\n";
-	 cout<<"enter the string to check:"<<endl;
-	 cin>>input_str;
-	 const char *cstr = input_str.c_str();
-	 if(simulation(cstr))cout<<"accept!!"<<endl;
-	 else cout<<"not accept!!"<<endl;
+	 while (1) {
+	 	/* code */
+		 cout<<"enter the string to check or -1 to terminate:"<<endl;
+		 cin>>input_str;
+		 if(input_str=="-1"){cout<<"Good Bye!!"<<endl;break;}
+		 const char *cstr = input_str.c_str();
+		 if(simulation(cstr))cout<<"accept!!"<<endl;
+		 else cout<<"not accept!!"<<endl;
+ 	}
 	return 0;
 }
